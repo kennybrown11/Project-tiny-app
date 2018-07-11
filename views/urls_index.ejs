@@ -8,12 +8,12 @@
     <h4> Index of URLs</h4>
 
     <% for (url in urls) { %>
-    <p><%= `${url}, ${urls[url]}` %></p>
-    <form method="POST" action="/urls/<%= url %>/delete">
-    <button>Delete</button>
+      <form method="POST" action="/urls/<%= url %>/delete">
+    <p><%= `${url} ---> ${urls[url]}` %>
+      <a href="/urls/<%= url %>">Edit</a><input type="submit" value="Delete"></p>
+      <% }; %>
     </form>
-    <% }; %>
-    <a href="http://localhost:8080/urls/new">
-      Add new Link</a>
+      <a href="http://localhost:8080/urls/new">
+      Add new Link</a>  
   </body>
 </html>

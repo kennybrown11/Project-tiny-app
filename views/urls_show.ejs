@@ -4,6 +4,14 @@
   <title>TinyApp</title>
 </head>
   <body>
-    <%= `${shortURL}:  ${urlDatabase[shortURL]}` %>
+  <h4><%= `ShortURL: ${shortURL}` %></h4>
+    <form method="POST" action="/urls"
+          <p>
+            <input id="longURL" type="text" name="longURL" value= "<%= `${urlDatabase[shortURL]}` %>" style="width: 300px">
+            <input type="submit" value="Update"> 
+          </p>
+    </form>
+    <a href="http://localhost:8080/urls/">
+      Index</a>  
   </body>
 </html>
