@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Tinyapp</title>
-</head>
-<%= `${username}` %>
+  <head>
+    <title>Tinyapp</title>
+  </head>
   <body>
+    <% if (username) { %>  
+    <p> Welcome back <%= username %></p>
+    <form action="/logout" method="POST">
+      <input type="submit" value="logout">
+    </form>
+    <% } else { %>  
     <form method= "POST" action="/login">
       <input type="text" name="username" placeholder="username" style="width: 150px">
       <input type="submit" value="Submit">
     </form>
+    <% } %>
   </body>
 </html>
