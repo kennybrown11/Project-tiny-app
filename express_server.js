@@ -1,8 +1,11 @@
 var express = require("express");
+var cookieParser = require('cookie-parser')
 var app = express();
+app.use(cookieParser())
 var PORT = 8080;
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
+app.set('view engine', 'ejs');
 
 // urlDatabase 
 let urlDatabase = {
@@ -21,17 +24,22 @@ var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   return text;
 }
 
+app.post("/login", (req, res) => {
+  res.cookie('username', req.body.username)
+  res.redirect("/urls");
+});
 
-app.set('view engine', 'ejs');
 
 //  index of stored urls
-app.get("/urls", (req, res) => {
-  res.render("urls_index", { urls: urlDatabase });
+app.get("/urls", (req, res) => {  
+  let templateVars = { urls: urlDatabase, username: req.cookies["username"] }
+  res.render("urls_index", templateVars);
 });
 
 // let user enter new url
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  let templateVars = { urls: urlDatabase, username: req.cookies["username"] }
+  res.render("urls_new", templateVars);
 });
 
 app.post("/urls", (req, res) => {
@@ -46,14 +54,16 @@ app.post("/urls", (req, res) => {
 //update longURL
 app.get("/urls/:id", (req, res) => {
     let shortURL = req.params.id;
-    res.render("urls_show", { shortURL: shortURL, urlDatabase: urlDatabase } );
+    let templateVars = {shortURL: shortURL, urls: urlDatabase, username: req.cookies["username"] }
+    res.render("urls_show", templateVars);
   });
 
 app.get("/urls/:id/update ", (req, res) => {
     let longURL = req.body.longURL;
     let shortURL = req.params.id;
+    let templateVars = {shortURL: shortURL, urls: urlDatabase, username: req.cookies["username"] }
     urlDatabase[shortURL] = longURL;
-    res.render("urls_show", { shortURL: shortURL, urlDatabase: urlDatabase });
+    res.render("urls_show", templateVars);
 });  
 
 app.post("/urls/:id/update ", (req, res) => {

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <% include partials/_header.ejs %>
   <title>TinyApp</title>
 </head>
   <body>
   <h4><%= `ShortURL: ${shortURL}` %></h4>
-    <form method="POST" action="/urls"
+    <form method="POST" action="/urls/<%= shortURL %>"
           <p>
-            <input id="longURL" type="text" name="longURL" value= "<%= `${urlDatabase[shortURL]}` %>" style="width: 300px">
+            <input id="longURL" type="text" name="longURL" value= "<%= `${urls[shortURL]}` %>" placeholder="longURL" style="width: 300px">
             <input type="submit" value="Update"> 
           </p>
     </form>
