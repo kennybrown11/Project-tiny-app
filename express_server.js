@@ -20,6 +20,7 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+//users database
 const users = { 
   "userRandomID": {
     id: "userRandomID", 
@@ -43,12 +44,25 @@ function generateRandomString() {
   
     return shortURL;
   }
-
-app.get('/register', (req, res) => {
-  let templateVars = { urls: urlDatabase, username: req.cookies[req.session.user_id] }
-  res.render('email_register', templateVars);
+//glogal user variable
+app.use((req, res, next) => {
+  res.locals = {
+    userDB: users,
+    urlDB: urlDatabase
+  }
+  res.locals.user = users[req.session.user_id];
+  next();
 });
 
+//email register 
+app.get('/register', (req, res) => {
+ 
+  let templateVars = { urls: urlDatabase, username: req.cookies[req.session.user_id] }
+  res.render('email_register', templateVars);
+  
+});
+
+//checks if email is exisiting or present
 app.post('/register', (req, res) => {
   res.cookie('randomID', req.body.email)
  
@@ -56,6 +70,8 @@ app.post('/register', (req, res) => {
       res.status(400).send("Enter an email and password");
       return;
     } 
+
+    //loops though users{}, if email is already in {}, REJECTED!
     let arr = [];
     for (let id in users) {
       arr.push(users[id].email)};
@@ -65,6 +81,7 @@ app.post('/register', (req, res) => {
       return;
     }
     
+    // adds new user to users object
     else {
       const randomID = generateRandomString();
       req.session.user_id = randomID;
@@ -78,6 +95,7 @@ app.post('/register', (req, res) => {
    }
 });  
 
+//renders login page
 app.get("/login", (req, res) =>{
   res.render("login")
 });
@@ -103,12 +121,15 @@ app.get('/u/:shortURL', (req, res) => {
 
 // let user enter new url
 app.get("/urls/new", (req, res) => {
+  if (res.locals.user_id) {
   let templateVars = { urls: urlDatabase, username: req.cookies[req.session.user_id] }
   res.render("urls_new", templateVars);
+  }
 });
 
 // generates new short url
 app.post("/urls", (req, res) => {
+  if (res.locals.user_id) {
   let shortURL = generateRandomString();
   let object = {
     shortURL,
@@ -116,6 +137,7 @@ app.post("/urls", (req, res) => {
   urlDatabase[shortURL] = object;
 
   res.status(201).json(object);
+  }
 });
 
 // logout

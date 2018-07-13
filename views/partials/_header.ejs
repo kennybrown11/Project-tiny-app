@@ -4,11 +4,18 @@
     <title>Tinyapp</title>
   </head>
   <body>
-    <% if (username) { %>  
-    <p> Welcome back <%= username %></p>
-    <% }; %>
+    <% if (user) { %>
     <form action="/logout" method="POST">
       <input type="submit" value="logout">
     </form>
+    <% } else { %>
+      <form>
+      <method= "GET" action="/login">
+      <input type="submit" value="Login">
+    
+      <method= "GET" action="/register">
+      <input type="submit" value="Register">
+      </form>
+     <% }; %>
   </body>
 </html>
