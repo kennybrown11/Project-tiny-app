@@ -5,7 +5,7 @@
 </head>
   <body>
     <h4> Index of URLs</h4>
-
+    <% include partials/_header %>
     <% for (url in urls) { %>
     <form method="POST" action="/urls/<%= url %>/delete">
       <p>
