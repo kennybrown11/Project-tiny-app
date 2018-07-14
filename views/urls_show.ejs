@@ -7,7 +7,7 @@
       <% include partials/_header.ejs %>
   <h4><%= `ShortURL: ${shortURL}` %></h4>
   <a href="/u/<%= shortURL%>">http://localhost:8080/u/<%= shortURL %></a>
-  <form method="POST" action="/urls/<%= shortURL %>"
+  <form method="POST" action="/urls/<%= shortURL %>/update"
           <p>
             <label for "long-url-input"></label>
             <input id="longURL" name="longURL" value= "<%= `${urls[shortURL]}` %>" placeholder="longURL" style="width: 300px">
