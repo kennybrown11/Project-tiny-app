@@ -4,17 +4,20 @@
   <title>TinyApp</title>
 </head>
   <body>
+    <% include partials/_header.ejs %>
     <h4> Index of URLs</h4>
-    <% include partials/_header %>
-    <% for (url in urls) { %>
+
+    <% for (var url in urls) { %>
     <form method="POST" action="/urls/<%= url %>/delete">
       <p>
-        <%= `${url} ---> ${urls[url]}` %>
-        <a href="/urls/<%= url %>">Update</a>
+        <%= `${url} ---> ${urls[url].longURL}` %>
+        <a href="/urls/<%= url %>">Edit</a>
         <input type="submit" value="Delete">
       </p>
+      <% }; %>
     </form>
-    <% }; %>
-    <a href="/urls/new">Create new URL</a>
+      <a 
+      <a href="/urls/new">Add new URL</a>
+      </a>  
   </body>
 </html>

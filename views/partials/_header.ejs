@@ -5,17 +5,10 @@
   </head>
   <body>
     <% if (user) { %>
-    <form action="/logout" method="POST">
-      <input type="submit" value="logout">
-    </form>
+      <form action="/logout" method="POST" type="submit" value="Logout">
+        <span><%= user.email %></span> <button>Logout</button><br></form>
     <% } else { %>
-      <form>
-      <method= "GET" action="/login">
-      <input type="submit" value="Login">
-    
-      <method= "GET" action="/register">
-      <input type="submit" value="Register">
-      </form>
+    </form><a href="/register">Register</a> <a href="/login">Login</a></form>
      <% }; %>
   </body>
 </html>
