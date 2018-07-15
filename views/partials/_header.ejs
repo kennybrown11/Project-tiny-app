@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Tinyapp</title>
+    <h1><tt>tinyApp</tt></h1>
   <body>
     <% if (user) { %>
       <form action="/logout" method="POST" type="submit" value="Logout">
-        <span><%= user.email %></span> <button>Logout</button><br></form>
+        <tt><%= "Welcome back to TinyApp  " %><%= user.email %></tt> <button>Logout</button><br></form>
     <% } else { %>
-    </form><a href="/register">Register</a> <a href="/login">Login</a></form>
+      <h3>
+        <tt><%= "login or register to create, save and display tinyURLs!" %></tt>
+      </h3>
+    </form><tt><a href="/register">Register</a></tt></form>
      <% }; %>
   </body>
 </head>

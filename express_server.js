@@ -3,6 +3,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const bodyParser = require("body-parser");
 const cookieSession = require ('cookie-session'); 
+const bcrypt = require('bcrypt');
 app.set('view engine', 'ejs');
 app.use(bodyParser.json({}));
 
@@ -60,9 +61,9 @@ const users = {
 function generateRandomString() {
   let generatedID = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      for (var i = 0; i < 6; i++)
-      generatedID += possible.charAt(Math.floor(Math.random() * possible.length));
-  
+    for (var i = 0; i < 6; i++)
+    generatedID += possible.charAt(Math.floor(Math.random() * possible.length));
+
     return generatedID;
   }
 
@@ -80,7 +81,7 @@ function loginUser(email, password){
   let accepted = false;
   let userId;
   for(let key in users){
-    if((users[key].email===email) && (users[key].password)){
+    if((users[key].email===email) && (bcrypt.compareSync(password, users[key].password))){
       accepted = true;
       userId = key;
       break;
@@ -97,24 +98,18 @@ function checkUserID(userID, shortURL) {
   return false;
 };
 
-//===== Returns users own index ====
-  function urlsForUser(id) {
-  for (var id in urlDatabase) {
-    let urls = Object.keys(urlDatabase)
-    if(urls.userID === id);
+//====== Shows user their specific index of URLS =====
+function urlsforuserID(id) {
+  let list = {};
+  for ( let item in urlDatabase){
+    if (id === urlDatabase[item].userid) {
+      list[item] = urlDatabase[item].url;
+    }
   }
-  return true;
+  return list;
+}
 
-};
-
-
-/*
-
-Object.keys(urls).forEach(function(id) { %><% var urlObj = urls[id] %>
-  <tr>
-    <% if(urlObj.userID === user_id) { %>*/
-
-//===== Get =====
+//========== Get ==========
 
 //=====Renders Login Page=====
 app.get("/login", (req, res) => {
@@ -159,7 +154,6 @@ app.get("/urls", (req, res) => {
 app.get("/urls/new", (req, res) => {
   let userId = req.session.user_id;
   let user = users[userId];
-  console.log(user)
   if (userId){
   let templateVars = { urls: urlDatabase, user: user};
   res.render("urls_new", templateVars);
@@ -215,10 +209,12 @@ app.get("/", (req, res) => {
 //=====checks if email is exisiting or present=====
 app.post("/register", (req, res) => {
 var userID = generateRandomString();
+const password = req.body.password;
+const hashedPassword = bcrypt.hashSync(password, 10);
 let newUser = {
   id: userID,
   email: req.body.email,
-  password: req.body.password }
+  password: hashedPassword }
 
   if (!newUser.password || !newUser.email) {
     res.status(400).send("Enter an email and password");
@@ -261,7 +257,6 @@ app.post("/urls", (req, res) => {
   let shortURL = generateRandomString();
   let longURL = req.body.longURL;
   let userId = req.session.user_id;
-  let user = users[userId];
   if (userId) { urlDatabase[shortURL] = { shortURL: shortURL, 
     longURL: longURL, userID: userId };
 

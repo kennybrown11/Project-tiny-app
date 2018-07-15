@@ -8,19 +8,18 @@
   </head>
 
   <body>
-      <% if (user) { %>
-    <a href="/u/<%= shortURL%>">http://u/<%= shortURL %></a>
+      <% if (user) { %> 
+    <tt>    
+    <p><a href="/u/<%= shortURL%>"><%= shortURL %></a></p>
 
     <form action="/urls/<%= shortURL %>" method="post">
       <p>
-        <label for="longURL">long URL</label>
-        <input id="longURL" name="longURL" value="<%= urlObj.longURL %>">
+        <input id="longURL" name="longURL" value="<%= urlObj.longURL %>" style="width: 250px">
+        <button>Update</button>
       </p>
-    <p>
-      <button>Update</button>
-    </p>
-    <p><a href="/urls">My URLs</a></p>
+      <p><a href="/urls">Back to tinyURLS</a></p>
     </form>
-  </div><% } else{ %><a href="/register">Register</a><a href="/login">Login</a><% } %>
-  </body>
+      </div><% } else{ %><a href="/register">Register</a><a href="/login">Login</a><% } %>
+    </tt>
+    </body>
 </html>

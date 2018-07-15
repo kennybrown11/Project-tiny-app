@@ -6,21 +6,21 @@
 </head>
   <% if (user) { %>
   <body>
-    <h4> Index of URLs</h4>
+    <h4><tt>tinyURLs</tt></h4>
     <% Object.keys(urls).forEach(function(id) { %><% var urlObj = urls[id] %>
     <% if (urlObj.userID === userId) { %>
+      <tt>
     <form method="POST" action="/urlObj.urls/<%= urlObj.url %>/delete">
       <p>
-      <a href="/u/<%= `${urlObj.shortURL}` %>">http://u/<%= `${urlObj.shortURL}` %></a>
-      <%= `${urlObj.shortURL} ---> ${urlObj.longURL}` %>
-      <a href="/urlObj.shortURL/<%= urlObj.shortURL %>">Edit</a>
+      <a href="/u/<%= `${urlObj.shortURL}` %>"><%= `${urlObj.shortURL}` %></a>
+      <%=` ☛ ${urlObj.longURL}` %>
+      <a href="/urls/<%= urlObj.shortURL %>">Edit</a>
       <input type="submit" value="Delete">
       </p>
     </form>
     <% } %>
     <% }); %>
-    
-      <a href="/urls/new">Add new URL</a>
+    <a href="/urls/new">Make a new tinyURL</a></tt>
   </body>
   <% }; %>
 </html>
