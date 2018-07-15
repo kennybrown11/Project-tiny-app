@@ -1,21 +1,26 @@
+
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-  <title>TinyApp</title>
-</head>
+  <head>
+    <title>Tiny App</title>
+    <% include partials/_header.ejs %>
+  </head>
+
   <body>
-      <% include partials/_header.ejs %>
-  <h4><%= `ShortURL: ${shortURL}` %></h4>
-  <a href="/u/<%= shortURL%>">http://localhost:8080/u/<%= shortURL %></a>
-  <form method="POST" action="/urls/<%= shortURL %>"
-          <p>
-            <label for "long-url-input"></label>
-            <input id="longURL" name="longURL" value= "<%= `${urls[shortURL]}` %>" placeholder="longURL" style="width: 300px">
-            <input type="submit" value="Update"> 
-          </p> 
+      <% if (user) { %>
+    <a href="/u/<%= shortURL%>">http://u/<%= shortURL %></a>
+
+    <form action="/urls/<%= shortURL %>" method="post">
+      <p>
+        <label for="longURL">long URL</label>
+        <input id="longURL" name="longURL" value="<%= urlObj.longURL %>">
+      </p>
+    <p>
+      <button>Update</button>
+    </p>
+    <p><a href="/urls">My URLs</a></p>
     </form>
-    <a href="http://localhost:8080/urls/">
-      Index 
-    </a>  
-  </body> 
+  </div><% } else{ %><a href="/register">Register</a><a href="/login">Login</a><% } %>
+  </body>
 </html>

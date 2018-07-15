@@ -2,23 +2,25 @@
 <html lang="en">
 <head>
   <title>TinyApp</title>
+  <% include partials/_header.ejs %>
 </head>
+  <% if (user) { %>
   <body>
-    <% include partials/_header.ejs %>
     <h4> Index of URLs</h4>
-
-    <% for (url in urls) { %>
-    <form method="POST" action="/urls/<%= url %>/delete">
+    <% Object.keys(urls).forEach(function(id) { %><% var urlObj = urls[id] %>
+    <% if (urlObj.userID === userId) { %>
+    <form method="POST" action="/urlObj.urls/<%= urlObj.url %>/delete">
       <p>
-        <%= `${url} ---> ${urls[url]}` %>
-        <a href="/urls/<%= url %>">Edit</a>
-        <input type="submit" value="Delete">
+      <a href="/u/<%= `${urlObj.shortURL}` %>">http://u/<%= `${urlObj.shortURL}` %></a>
+      <%= `${urlObj.shortURL} ---> ${urlObj.longURL}` %>
+      <a href="/urlObj.shortURL/<%= urlObj.shortURL %>">Edit</a>
+      <input type="submit" value="Delete">
       </p>
-      <% }; %>
     </form>
-      <a 
-        href="http://localhost:8080/urls/new">
-        Add new Link
-      </a>  
+    <% } %>
+    <% }); %>
+    
+      <a href="/urls/new">Add new URL</a>
   </body>
+  <% }; %>
 </html>
