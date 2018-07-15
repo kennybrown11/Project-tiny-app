@@ -4,9 +4,9 @@ tinyAppis a full stack web application built with Node and Express that allows u
 
 ##Final Product
 
-[login](docs/login_page.png)
-[edit](docs/edit_urls.png)
-[index](urls_index.png)
+![login](docs/login_page.png)
+![edit](docs/edit_urls.png)
+![index](urls_index.png)
 
 ## Dependencies
 
